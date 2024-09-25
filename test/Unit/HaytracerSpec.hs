@@ -1,4 +1,4 @@
-module Unit.HaytracerSpec where
+module Unit.HaytracerSpec (spec) where
 
 import Test.Hspec
   ( Spec,
@@ -13,8 +13,8 @@ import Test.Hspec.QuickCheck
 
 spec :: Spec
 spec = modifyMaxSuccess (const 1000) $ do
-  describe "todo" $ do
-    it "todo" $
+  describe "Example assertion" $ do
+    it "trivial" $
       True `shouldBe` True
-  prop "True" $
+  prop "Example property" $
     \n -> n > (n - 1 :: Int)
