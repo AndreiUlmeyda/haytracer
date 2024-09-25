@@ -26,7 +26,7 @@ source-repository head
 library
   exposed-modules:
       Haytracer
-      ThreeTuple
+      Types
   other-modules:
       Paths_haytracer
   hs-source-dirs:
@@ -57,7 +57,7 @@ test-suite haytracer-test
   main-is: Spec.hs
   other-modules:
       Unit.HaytracerSpec
-      Unit.ThreeTupleSpec
+      Unit.TypesSpec
       Paths_haytracer
   hs-source-dirs:
       test
