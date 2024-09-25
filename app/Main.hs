@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Lib
+import Haytracer
 
 main :: IO ()
-main = someFunc
+main = print "Currently, there is no command line interface. Refer to the /test folder instead."
