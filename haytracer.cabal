@@ -30,7 +30,7 @@ library
       Paths_haytracer
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  ghc-options: -O2 -Wall -Wincomplete-uni-patterns -Wmonomorphism-restriction -Wmissing-local-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wcpp-undef -Wmissing-deriving-strategies -Wunused-packages -Wunused-type-patterns -Wcompat
   build-depends:
       base >=4.7 && <5
   default-language: Haskell2010
@@ -41,7 +41,7 @@ executable haytracer-exe
       Paths_haytracer
   hs-source-dirs:
       app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -O2 -Wall -Wincomplete-uni-patterns -Wmonomorphism-restriction -Wmissing-local-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wcpp-undef -Wmissing-deriving-strategies -Wunused-packages -Wunused-type-patterns -Wcompat -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , haytracer
@@ -54,7 +54,7 @@ test-suite haytracer-test
       Paths_haytracer
   hs-source-dirs:
       test
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -O2 -Wall -Wincomplete-uni-patterns -Wmonomorphism-restriction -Wmissing-local-signatures -Wmissing-export-lists -Wmissing-home-modules -Widentities -Wredundant-constraints -Wpartial-fields -Wcpp-undef -Wmissing-deriving-strategies -Wunused-packages -Wunused-type-patterns -Wcompat -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , haytracer

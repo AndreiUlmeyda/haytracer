@@ -23,15 +23,21 @@ dependencies:
 - base >= 4.7 && < 5
 
 ghc-options:
-- -Wall
-- -Wcompat
-- -Widentities
-- -Wincomplete-record-updates
-- -Wincomplete-uni-patterns
-- -Wmissing-export-lists
-- -Wmissing-home-modules
-- -Wpartial-fields
-- -Wredundant-constraints
+  - -O2
+  - -Wall
+  - -Wincomplete-uni-patterns
+  - -Wmonomorphism-restriction
+  - -Wmissing-local-signatures
+  - -Wmissing-export-lists
+  - -Wmissing-home-modules
+  - -Widentities
+  - -Wredundant-constraints
+  - -Wpartial-fields
+  - -Wcpp-undef
+  - -Wmissing-deriving-strategies
+  - -Wunused-packages
+  - -Wunused-type-patterns
+  - -Wcompat
 
 library:
   source-dirs: src
