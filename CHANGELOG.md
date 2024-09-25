@@ -1,4 +1,4 @@
-# Changelog for `haskell-devcontainer`
+# Changelog for `haytracer`
 
 All notable changes to this project will be documented in this file.
 
@@ -7,5 +7,7 @@ and this project adheres to the
 [Haskell Package Versioning Policy](https://pvp.haskell.org/).
 
 ## Unreleased
+- working dev container
+- updated license and package metadata
 
-## 0.1.0.0 - YYYY-MM-DD
+## 0.1.0 - YYYY-MM-DD
