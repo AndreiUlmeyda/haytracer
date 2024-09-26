@@ -13,8 +13,8 @@ import Test.Hspec.QuickCheck
 
 spec :: Spec
 spec = modifyMaxSuccess (const 1000) $ do
-  describe "Example assertion" $ do
+  describe "example assertion" $ do
     it "trivial" $
       True `shouldBe` True
-  prop "Example property" $
+  prop "example property" $
     \n -> n > (n - 1 :: Int)
