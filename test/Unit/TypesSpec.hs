@@ -5,6 +5,7 @@ import Test.Hspec
     describe,
     it,
     shouldBe,
+    shouldNotBe,
   )
 import Test.Hspec.QuickCheck
   ( modifyMaxSuccess,
@@ -13,6 +14,7 @@ import Test.Hspec.QuickCheck
 import Types
   ( Point (..),
     Vector (..),
+    epsilon,
   )
 
 spec :: Spec
@@ -32,6 +34,16 @@ spec = modifyMaxSuccess (const 1000) $ do
       vx simpleVector `shouldBe` 4.3
       vy simpleVector `shouldBe` -4.2
       vz simpleVector `shouldBe` 3.1
+    it "comparison" $ do
+      let signficantlyDifferentPoint = MkPoint {px = 4.3 + 2 * epsilon, py = -4.2, pz = 3.1}
+      let marginallyDifferentPoint = MkPoint {px = 4.3, py = -4.2 + epsilon / 2, pz = 3.1}
+      simplePoint `shouldNotBe` signficantlyDifferentPoint
+      simplePoint `shouldBe` marginallyDifferentPoint
+      let signficantlyDifferentVector = MkVector {vx = 4.3 + 2 * epsilon, vy = -4.2, vz = 3.1}
+      let marginallyDifferentVector = MkVector {vx = 4.3, vy = -4.2 + epsilon / 2, vz = 3.1}
+      simpleVector `shouldNotBe` signficantlyDifferentVector
+      simpleVector `shouldBe` marginallyDifferentVector
+
   -- Note: The book provides different directions for distinguishing points
   -- and vectors. There, they are the same type containing a fourth field
   -- whose content indicates the type. Up and until there is no way to avoid
