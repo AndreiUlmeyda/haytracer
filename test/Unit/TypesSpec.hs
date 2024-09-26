@@ -14,7 +14,12 @@ import Test.Hspec.QuickCheck
 import Types
   ( Point (..),
     Vector (..),
+    VectorArithmetic (..),
     epsilon,
+  )
+import Prelude hiding
+  ( negate,
+    subtract,
   )
 
 spec :: Spec
@@ -43,6 +48,14 @@ spec = modifyMaxSuccess (const 1000) $ do
     -- There is no point in implementing, or immediately obvious way to
     -- implement, an 'a point is not a vector' test. The type system takes care
     -- of that as it should. Watch me eat my words when the math hits.
+    it "addition" $ do
+      add simplePoint simplePoint `shouldBe` MkPoint {px = 8.6, py = -8.4, pz = 6.2}
+    it "subtraction" $ do
+      -- TODO turn into property
+      subtract simplePoint simplePoint `shouldBe` MkPoint {px = 0, py = 0, pz = 0}
+    it "negation" $ do
+      -- TODO turn into property (adding to negative should give 0)
+      negate simplePoint `shouldBe` MkPoint {px = -4.3, py = 4.2, pz = -3.1}
 
     it "comparison" $ do
       let signficantlyDifferentPoint = MkPoint {px = 4.3 + 2 * epsilon, py = -4.2, pz = 3.1}
