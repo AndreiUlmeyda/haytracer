@@ -5,7 +5,6 @@ import Test.Hspec
     describe,
     it,
     shouldBe,
-    shouldNotBe,
   )
 import Test.Hspec.QuickCheck
   ( modifyMaxSuccess,
@@ -30,13 +29,16 @@ spec = modifyMaxSuccess (const 1000) $ do
       px simplePoint `shouldBe` 4.3
       py simplePoint `shouldBe` -4.2
       pz simplePoint `shouldBe` 3.1
-    -- Note: The book provides different directions for distinguishing points
-    -- and vectors. There, they are the same type containing a fourth field
-    -- whose content indicates the type. Up and until there is no way to avoid
-    -- it, points and vectors will simply be represented by different types.
-    -- There is no point in implementing, or immediately obvious way to
-    -- implement, an 'a point is not a vector' test. The type system takes care
-    -- of that as it should. Watch me eat my words when the math hits.
+      vx simpleVector `shouldBe` 4.3
+      vy simpleVector `shouldBe` -4.2
+      vz simpleVector `shouldBe` 3.1
+  -- Note: The book provides different directions for distinguishing points
+  -- and vectors. There, they are the same type containing a fourth field
+  -- whose content indicates the type. Up and until there is no way to avoid
+  -- it, points and vectors will simply be represented by different types.
+  -- There is no point in implementing, or immediately obvious way to
+  -- implement, an 'a point is not a vector' test. The type system takes care
+  -- of that as it should. Watch me eat my words when the math hits.
 
   prop "Example property" $
     \n -> n > (n - 1 :: Int)
