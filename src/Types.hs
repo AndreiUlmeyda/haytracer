@@ -6,6 +6,7 @@ module Types
     addTuple,
     subtractTuple,
     negateTuple,
+    scalarMultiply,
   )
 where
 
@@ -13,6 +14,8 @@ data ThreeTuple
   = Point {x :: Double, y :: Double, z :: Double}
   | Vector {x :: Double, y :: Double, z :: Double}
   deriving stock (Show)
+
+type Error = String
 
 instance Eq ThreeTuple where
   (==) :: ThreeTuple -> ThreeTuple -> Bool
@@ -49,6 +52,7 @@ subtractTuple a b
   | Vector {} <- a, Point {} <- b = Right "subtracting a point from a vector does not have meaning in this context"
 
 negateTuple :: ThreeTuple -> ThreeTuple
-negateTuple a = a {x = -(x a), y = -(y a), z = -(z a)}
+negateTuple t = t {x = -(x t), y = -(y t), z = -(z t)}
 
-type Error = String
+scalarMultiply :: ThreeTuple -> Double -> ThreeTuple
+scalarMultiply t factor = t {x = factor * x t, y = factor * y t, z = factor * z t}
