@@ -44,9 +44,11 @@ spec = modifyMaxSuccess (const 1000) $ do
       addTuple point vector `shouldBe` addTuple vector point
       addTuple vector vector `shouldBe` Just (Vector {x = 8.6, y = -8.4, z = 6.2})
       addTuple point point `shouldBe` Nothing
-    prop "adding the zero tuple should leave it unchanged" $ do
+    prop "adding the zero vector to a vector should leave it unchanged" $
       \a b c -> addTuple (Vector a b c) zeroVector `shouldBe` Just (Vector a b c)
+    prop "adding the zero vector to a point should leave the point unchanged" $
       \a b c -> addTuple (Point a b c) zeroVector `shouldBe` Just (Point a b c)
+    prop "adding the zero vector to a vector should leave it unchanged" $
       \a b c -> addTuple (Vector a b c) zeroVector `shouldBe` Just (Vector a b c)
     it "subtraction" $ do
       -- TODO turn into property
@@ -54,8 +56,9 @@ spec = modifyMaxSuccess (const 1000) $ do
       subtractTuple vector vector `shouldBe` Just zeroVector
       subtractTuple point vector `shouldBe` Just zeroPoint
       subtractTuple vector point `shouldBe` Nothing
-    prop "negation" $ do
+    prop "negation of a point" $
       \a b c -> negateTuple (Point a b c) `shouldBe` Point (-a) (-b) (-c)
+    prop "negation of a vector" $
       \a b c -> negateTuple (Vector a b c) `shouldBe` Vector (-a) (-b) (-c)
 
     it "comparison" $ do
