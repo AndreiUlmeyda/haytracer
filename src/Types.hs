@@ -38,7 +38,7 @@ addTuple a b
   | (Point x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Point {x = x1 + x2, y = y1 + y2, z = z1 + z2}
   | Vector {} <- a, Point {} <- b = addTuple b a
   | (Vector x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Vector {x = x1 + x2, y = y1 + y2, z = z1 + z2}
-  | otherwise = Nothing -- adding points to points does not have meaning in this context
+  | Point {} <- a, Point {} <- b = Nothing
 
 -- TODO swith to Either to provide error messages
 subtractTuple :: ThreeTuple -> ThreeTuple -> Maybe ThreeTuple
@@ -46,7 +46,7 @@ subtractTuple a b
   | (Point x1 y1 z1) <- a, (Point x2 y2 z2) <- b = Just $ Vector {x = x1 - x2, y = y1 - y2, z = z1 - z2}
   | (Point x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Point {x = x1 - x2, y = y1 - y2, z = z1 - z2}
   | (Vector x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Vector {x = x1 - x2, y = y1 - y2, z = z1 - z2}
-  | otherwise = Nothing -- subtracting points from vectors does not have meaning in this context
+  | (Vector x1 y1 z1) <- a, (Point x2 y2 z2) <- b = Nothing
 
 negateTuple :: ThreeTuple -> ThreeTuple
 negateTuple a = a {x = -(x a), y = -(y a), z = -(z a)}

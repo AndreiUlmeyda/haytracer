@@ -3,5 +3,5 @@ module Haytracer
   )
 where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+someFunc :: String
+someFunc = "someFunc"

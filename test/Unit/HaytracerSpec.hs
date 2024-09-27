@@ -11,10 +11,12 @@ import Test.Hspec.QuickCheck
     prop,
   )
 
+import Haytracer (someFunc)
+
 spec :: Spec
 spec = modifyMaxSuccess (const 1000) $ do
   describe "example assertion" $ do
     it "trivial" $
-      True `shouldBe` True
+      someFunc `shouldBe` "someFunc"
   prop "example property" $
     \n -> n > (n - 1 :: Int)
