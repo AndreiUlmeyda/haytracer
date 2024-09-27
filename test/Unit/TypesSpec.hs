@@ -25,7 +25,7 @@ import Prelude hiding
 
 spec :: Spec
 spec = modifyMaxSuccess (const 1000) $ do
-  describe "points and vectors" $ do
+  describe "three tuples" $ do
     let point = Point {x = 4.3, y = -4.2, z = 3.1}
     let vector = Vector {x = 4.3, y = -4.2, z = 3.1}
     let zeroPoint = Point {x = 0, y = 0, z = 0}
@@ -50,11 +50,13 @@ spec = modifyMaxSuccess (const 1000) $ do
       \a b c -> addTuple (Point a b c) zeroVector `shouldBe` Just (Point a b c)
     prop "adding the zero vector to a vector should leave it unchanged" $
       \a b c -> addTuple (Vector a b c) zeroVector `shouldBe` Just (Vector a b c)
-    it "subtraction" $ do
-      -- TODO turn into property
-      subtractTuple point point `shouldBe` Just zeroVector
-      subtractTuple vector vector `shouldBe` Just zeroVector
-      subtractTuple point vector `shouldBe` Just zeroPoint
+    prop "subtracting a point from itself should be the zero vector" $
+      \a b c -> subtractTuple (Point a b c) (Point a b c) `shouldBe` Just zeroVector
+    prop "subtracting a vector from itself should be the zero vector" $
+      \a b c -> subtractTuple (Vector a b c) (Vector a b c) `shouldBe` Just zeroVector
+    prop "subtracting a vector from an equivalent point should be the zero point" $
+      \a b c -> subtractTuple (Point a b c) (Vector a b c) `shouldBe` Just zeroPoint
+    it "subtracting a point from a vector yields nothing" $
       subtractTuple vector point `shouldBe` Nothing
     prop "negation of a point" $
       \a b c -> negateTuple (Point a b c) `shouldBe` Point (-a) (-b) (-c)
@@ -74,7 +76,3 @@ spec = modifyMaxSuccess (const 1000) $ do
     it "conversion to string" $ do
       show point `shouldBe` "Point {x = 4.3, y = -4.2, z = 3.1}"
       show vector `shouldBe` "Vector {x = 4.3, y = -4.2, z = 3.1}"
-      
-
-  prop "example property" $
-    \n -> n > (n - 1 :: Int)
