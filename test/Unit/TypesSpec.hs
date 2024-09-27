@@ -12,10 +12,11 @@ import Test.Hspec.QuickCheck
     prop,
   )
 import Types
-  ( Point (..),
-    Vector (..),
-    VectorArithmetic (..),
+  ( ThreeTuple (..),
+    addTuple,
     epsilon,
+    negateTuple,
+    subtractTuple,
   )
 import Prelude hiding
   ( negate,
@@ -25,45 +26,51 @@ import Prelude hiding
 spec :: Spec
 spec = modifyMaxSuccess (const 1000) $ do
   describe "points and vectors" $ do
-    let simplePoint = MkPoint {px = 4.3, py = -4.2, pz = 3.1}
-    let simplePoint' = MkPoint 4.3 (-4.2) 3.1
-    let simpleVector = MkVector {vx = 4.3, vy = -4.2, vz = 3.1}
-    let simpleVector' = MkVector 4.3 (-4.2) 3.1
+    let simplePoint = Point {x = 4.3, y = -4.2, z = 3.1}
+    let simplePoint' = Point 4.3 (-4.2) 3.1
+    let simpleVector = Vector {x = 4.3, y = -4.2, z = 3.1}
+    let simpleVector' = Vector 4.3 (-4.2) 3.1
 
     it "creation" $ do
       simplePoint `shouldBe` simplePoint'
       simpleVector `shouldBe` simpleVector'
 
     it "access" $ do
-      px simplePoint `shouldBe` 4.3
-      py simplePoint `shouldBe` -4.2
-      pz simplePoint `shouldBe` 3.1
-      vx simpleVector `shouldBe` 4.3
-      vy simpleVector `shouldBe` -4.2
-      vz simpleVector `shouldBe` 3.1
+      x simplePoint `shouldBe` 4.3
+      y simplePoint `shouldBe` -4.2
+      z simplePoint `shouldBe` 3.1
+      x simpleVector `shouldBe` 4.3
+      y simpleVector `shouldBe` -4.2
+      z simpleVector `shouldBe` 3.1
     -- Note: The book provides different directions for distinguishing points
     -- and vectors. There, they are the same type containing a fourth field
     -- whose content indicates the type. Up and until there is no way to avoid
-    -- it, points and vectors will simply be represented by different types.
+    -- it, points and vectors will simply be represented by different types or
+    -- at least type constructors.
     -- There is no point in implementing, or immediately obvious way to
     -- implement, an 'a point is not a vector' test. The type system takes care
     -- of that as it should. Watch me eat my words when the math hits.
     it "addition" $ do
-      add simplePoint simplePoint `shouldBe` MkPoint {px = 8.6, py = -8.4, pz = 6.2}
+      addTuple simplePoint simpleVector `shouldBe` Just (Point {x = 8.6, y = -8.4, z = 6.2})
+      addTuple simplePoint simpleVector `shouldBe` addTuple simpleVector simplePoint
+      addTuple simpleVector simpleVector `shouldBe` Just (Vector {x = 8.6, y = -8.4, z = 6.2})
     it "subtraction" $ do
       -- TODO turn into property
-      subtract simplePoint simplePoint `shouldBe` MkPoint {px = 0, py = 0, pz = 0}
+      subtractTuple simplePoint simplePoint `shouldBe` Just (Vector {x = 0, y = 0, z = 0})
+      subtractTuple simpleVector simpleVector `shouldBe` Just (Vector {x = 0, y = 0, z = 0})
+      subtractTuple simplePoint simpleVector `shouldBe` Just (Point {x = 0, y = 0, z = 0})
     it "negation" $ do
       -- TODO turn into property (adding to negative should give 0)
-      negate simplePoint `shouldBe` MkPoint {px = -4.3, py = 4.2, pz = -3.1}
+      negateTuple simplePoint `shouldBe` Point {x = -4.3, y = 4.2, z = -3.1}
+      negateTuple simpleVector `shouldBe` Vector {x = -4.3, y = 4.2, z = -3.1}
 
     it "comparison" $ do
-      let signficantlyDifferentPoint = MkPoint {px = 4.3 + 2 * epsilon, py = -4.2, pz = 3.1}
-      let marginallyDifferentPoint = MkPoint {px = 4.3, py = -4.2 + epsilon / 2, pz = 3.1}
+      let signficantlyDifferentPoint = Point {x = 4.3 + 2 * epsilon, y = -4.2, z = 3.1}
+      let marginallyDifferentPoint = Point {x = 4.3, y = -4.2 + epsilon / 2, z = 3.1}
       simplePoint `shouldNotBe` signficantlyDifferentPoint
       simplePoint `shouldBe` marginallyDifferentPoint
-      let signficantlyDifferentVector = MkVector {vx = 4.3, vy = -4.2, vz = 3.1 - 3 * epsilon}
-      let marginallyDifferentVector = MkVector {vx = 4.3, vy = -4.2 + epsilon / 5, vz = 3.1}
+      let signficantlyDifferentVector = Vector {x = 4.3, y = -4.2, z = 3.1 - 3 * epsilon}
+      let marginallyDifferentVector = Vector {x = 4.3, y = -4.2 + epsilon / 5, z = 3.1}
       simpleVector `shouldNotBe` signficantlyDifferentVector
       simpleVector `shouldBe` marginallyDifferentVector
 
