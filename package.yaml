@@ -66,4 +66,3 @@ tests:
     dependencies:
     - haytracer
     - hspec
-    - QuickCheck

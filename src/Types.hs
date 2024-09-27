@@ -46,7 +46,7 @@ subtractTuple a b
   | (Point x1 y1 z1) <- a, (Point x2 y2 z2) <- b = Just $ Vector {x = x1 - x2, y = y1 - y2, z = z1 - z2}
   | (Point x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Point {x = x1 - x2, y = y1 - y2, z = z1 - z2}
   | (Vector x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Vector {x = x1 - x2, y = y1 - y2, z = z1 - z2}
-  | (Vector x1 y1 z1) <- a, (Point x2 y2 z2) <- b = Nothing
+  | Vector {} <- a, Point {} <- b = Nothing
 
 negateTuple :: ThreeTuple -> ThreeTuple
 negateTuple a = a {x = -(x a), y = -(y a), z = -(z a)}

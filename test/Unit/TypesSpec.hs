@@ -45,9 +45,9 @@ spec = modifyMaxSuccess (const 1000) $ do
       addTuple vector vector `shouldBe` Just (Vector {x = 8.6, y = -8.4, z = 6.2})
       addTuple point point `shouldBe` Nothing
     prop "adding the zero tuple should leave it unchanged" $ do
-      \x y z -> addTuple (Vector x y z) zeroVector `shouldBe` Just (Vector x y z)
-      \x y z -> addTuple (Point x y z) zeroVector `shouldBe` Just (Point x y z)
-      \x y z -> addTuple (Vector x y z) zeroVector `shouldBe` Just (Vector x y z) 
+      \a b c -> addTuple (Vector a b c) zeroVector `shouldBe` Just (Vector a b c)
+      \a b c -> addTuple (Point a b c) zeroVector `shouldBe` Just (Point a b c)
+      \a b c -> addTuple (Vector a b c) zeroVector `shouldBe` Just (Vector a b c)
     it "subtraction" $ do
       -- TODO turn into property
       subtractTuple point point `shouldBe` Just zeroVector
@@ -55,8 +55,8 @@ spec = modifyMaxSuccess (const 1000) $ do
       subtractTuple point vector `shouldBe` Just zeroPoint
       subtractTuple vector point `shouldBe` Nothing
     prop "negation" $ do
-      \x y z -> negateTuple (Point x y z) `shouldBe` Point (-x) (-y) (-z)
-      \x y z -> negateTuple (Vector x y z) `shouldBe` Vector (-x) (-y) (-z)
+      \a b c -> negateTuple (Point a b c) `shouldBe` Point (-a) (-b) (-c)
+      \a b c -> negateTuple (Vector a b c) `shouldBe` Vector (-a) (-b) (-c)
 
     it "comparison" $ do
       let signficantlyDifferentPoint = Point {x = 4.3 + 2 * epsilon, y = -4.2, z = 3.1}
