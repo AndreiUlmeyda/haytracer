@@ -33,20 +33,22 @@ absoluteDifferenceBelowThreshold :: Double -> Double -> Bool
 absoluteDifferenceBelowThreshold a b = abs (a - b) <= epsilon
 
 -- TODO swith to Either to provide error messages
-addTuple :: ThreeTuple -> ThreeTuple -> Maybe ThreeTuple
+addTuple :: ThreeTuple -> ThreeTuple -> Either ThreeTuple Error
 addTuple a b
-  | (Point x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Point {x = x1 + x2, y = y1 + y2, z = z1 + z2}
+  | (Point x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Left $ Point {x = x1 + x2, y = y1 + y2, z = z1 + z2}
   | Vector {} <- a, Point {} <- b = addTuple b a
-  | (Vector x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Vector {x = x1 + x2, y = y1 + y2, z = z1 + z2}
-  | Point {} <- a, Point {} <- b = Nothing
+  | (Vector x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Left $ Vector {x = x1 + x2, y = y1 + y2, z = z1 + z2}
+  | Point {} <- a, Point {} <- b = Right "adding a point to a point does not have meaning in this context"
 
 -- TODO swith to Either to provide error messages
-subtractTuple :: ThreeTuple -> ThreeTuple -> Maybe ThreeTuple
+subtractTuple :: ThreeTuple -> ThreeTuple -> Either ThreeTuple Error
 subtractTuple a b
-  | (Point x1 y1 z1) <- a, (Point x2 y2 z2) <- b = Just $ Vector {x = x1 - x2, y = y1 - y2, z = z1 - z2}
-  | (Point x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Point {x = x1 - x2, y = y1 - y2, z = z1 - z2}
-  | (Vector x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Just $ Vector {x = x1 - x2, y = y1 - y2, z = z1 - z2}
-  | Vector {} <- a, Point {} <- b = Nothing
+  | (Point x1 y1 z1) <- a, (Point x2 y2 z2) <- b = Left $ Vector {x = x1 - x2, y = y1 - y2, z = z1 - z2}
+  | (Point x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Left $ Point {x = x1 - x2, y = y1 - y2, z = z1 - z2}
+  | (Vector x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Left $ Vector {x = x1 - x2, y = y1 - y2, z = z1 - z2}
+  | Vector {} <- a, Point {} <- b = Right "subtracting a point from a vector does not have meaning in this context"
 
 negateTuple :: ThreeTuple -> ThreeTuple
 negateTuple a = a {x = -(x a), y = -(y a), z = -(z a)}
+
+type Error = String

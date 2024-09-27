@@ -31,7 +31,6 @@ spec = modifyMaxSuccess (const 1000) $ do
     let zeroPoint = Point {x = 0, y = 0, z = 0}
     let zeroVector = Vector {x = 0, y = 0, z = 0}
 
-
     it "access" $ do
       x point `shouldBe` 4.3
       y point `shouldBe` -4.2
@@ -40,29 +39,32 @@ spec = modifyMaxSuccess (const 1000) $ do
       y vector `shouldBe` -4.2
       z vector `shouldBe` 3.1
     it "addition" $ do
-      addTuple point vector `shouldBe` Just (Point {x = 8.6, y = -8.4, z = 6.2})
+      addTuple point vector `shouldBe` Left (Point {x = 8.6, y = -8.4, z = 6.2})
       addTuple point vector `shouldBe` addTuple vector point
-      addTuple vector vector `shouldBe` Just (Vector {x = 8.6, y = -8.4, z = 6.2})
-      addTuple point point `shouldBe` Nothing
+      addTuple vector vector `shouldBe` Left (Vector {x = 8.6, y = -8.4, z = 6.2})
+      addTuple point point `shouldBe` Right "adding a point to a point does not have meaning in this context"
     prop "adding the zero vector to a vector should leave it unchanged" $
-      \a b c -> addTuple (Vector a b c) zeroVector `shouldBe` Just (Vector a b c)
+      \a b c -> addTuple (Vector a b c) zeroVector `shouldBe` Left (Vector a b c)
     prop "adding the zero vector to a point should leave the point unchanged" $
-      \a b c -> addTuple (Point a b c) zeroVector `shouldBe` Just (Point a b c)
+      \a b c -> addTuple (Point a b c) zeroVector `shouldBe` Left (Point a b c)
     prop "adding the zero vector to a vector should leave it unchanged" $
-      \a b c -> addTuple (Vector a b c) zeroVector `shouldBe` Just (Vector a b c)
+      \a b c -> addTuple (Vector a b c) zeroVector `shouldBe` Left (Vector a b c)
     prop "subtracting a point from itself should be the zero vector" $
-      \a b c -> subtractTuple (Point a b c) (Point a b c) `shouldBe` Just zeroVector
+      \a b c -> subtractTuple (Point a b c) (Point a b c) `shouldBe` Left zeroVector
     prop "subtracting a vector from itself should be the zero vector" $
-      \a b c -> subtractTuple (Vector a b c) (Vector a b c) `shouldBe` Just zeroVector
+      \a b c -> subtractTuple (Vector a b c) (Vector a b c) `shouldBe` Left zeroVector
     prop "subtracting a vector from an equivalent point should be the zero point" $
-      \a b c -> subtractTuple (Point a b c) (Vector a b c) `shouldBe` Just zeroPoint
+      \a b c -> subtractTuple (Point a b c) (Vector a b c) `shouldBe` Left zeroPoint
     it "subtracting a point from a vector yields nothing" $
-      subtractTuple vector point `shouldBe` Nothing
+      subtractTuple vector point `shouldBe` Right "subtracting a point from a vector does not have meaning in this context"
     prop "negation of a point" $
       \a b c -> negateTuple (Point a b c) `shouldBe` Point (-a) (-b) (-c)
     prop "negation of a vector" $
       \a b c -> negateTuple (Vector a b c) `shouldBe` Vector (-a) (-b) (-c)
-
+    prop "negating twice should be the identity function for points" $
+      \a b c -> (negateTuple . negateTuple) (Point a b c) `shouldBe` Point a b c
+    prop "negating twice should be the identity function for vectors" $
+      \a b c -> (negateTuple . negateTuple) (Vector a b c) `shouldBe` Vector a b c
     it "comparison" $ do
       let signficantlyDifferentPoint = Point {x = 4.3 + 2 * epsilon, y = -4.2, z = 3.1}
       let marginallyDifferentPoint = Point {x = 4.3, y = -4.2 + epsilon / 2, z = 3.1}
