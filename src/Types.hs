@@ -7,6 +7,7 @@ module Types
     subtractTuple,
     negateTuple,
     scalarMultiply,
+    scalarDivide,
   )
 where
 
@@ -35,7 +36,6 @@ epsilon = 1e-9
 absoluteDifferenceBelowThreshold :: Double -> Double -> Bool
 absoluteDifferenceBelowThreshold a b = abs (a - b) <= epsilon
 
--- TODO swith to Either to provide error messages
 addTuple :: ThreeTuple -> ThreeTuple -> Either ThreeTuple Error
 addTuple a b
   | (Point x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Left $ Point {x = x1 + x2, y = y1 + y2, z = z1 + z2}
@@ -43,7 +43,6 @@ addTuple a b
   | (Vector x1 y1 z1) <- a, (Vector x2 y2 z2) <- b = Left $ Vector {x = x1 + x2, y = y1 + y2, z = z1 + z2}
   | Point {} <- a, Point {} <- b = Right "adding a point to a point does not have meaning in this context"
 
--- TODO swith to Either to provide error messages
 subtractTuple :: ThreeTuple -> ThreeTuple -> Either ThreeTuple Error
 subtractTuple a b
   | (Point x1 y1 z1) <- a, (Point x2 y2 z2) <- b = Left $ Vector {x = x1 - x2, y = y1 - y2, z = z1 - z2}
@@ -56,3 +55,6 @@ negateTuple t = t {x = -(x t), y = -(y t), z = -(z t)}
 
 scalarMultiply :: ThreeTuple -> Double -> ThreeTuple
 scalarMultiply t factor = t {x = factor * x t, y = factor * y t, z = factor * z t}
+
+scalarDivide :: ThreeTuple -> Double -> ThreeTuple
+scalarDivide t divisor = scalarMultiply t (1 / divisor)

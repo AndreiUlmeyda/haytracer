@@ -16,6 +16,7 @@ import Types
     addTuple,
     epsilon,
     negateTuple,
+    scalarDivide,
     scalarMultiply,
     subtractTuple,
   )
@@ -91,3 +92,10 @@ spec = modifyMaxSuccess (const 1000) $ do
     prop "scalar multiplication of a vector" $
       let factor = 7.1 :: Double
        in \a b c -> scalarMultiply (Vector a b c) factor `shouldBe` Vector (a * factor) (b * factor) (c * factor)
+
+    prop "scalar division of a point" $
+      let divisor = 3.5 :: Double
+       in \a b c -> scalarDivide (Point a b c) divisor `shouldBe` Point (a / divisor) (b / divisor) (c / divisor)
+    prop "scalar division of a vector" $
+      let divisor = 7.1 :: Double
+       in \a b c -> scalarDivide (Vector a b c) divisor `shouldBe` Vector (a / divisor) (b / divisor) (c / divisor)
