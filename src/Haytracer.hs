@@ -3,5 +3,7 @@ module Haytracer
   )
 where
 
+-- TODO add documentation
+
 someFunc :: String
 someFunc = "someFunc"

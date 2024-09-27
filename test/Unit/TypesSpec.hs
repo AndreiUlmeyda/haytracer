@@ -19,11 +19,14 @@ import Types
     scalarDivide,
     scalarMultiply,
     subtractTuple,
+    tupleMagnitude,
   )
 import Prelude hiding
   ( negate,
     subtract,
   )
+
+-- TODO add documentation
 
 spec :: Spec
 spec = modifyMaxSuccess (const 1000) $ do
@@ -87,15 +90,23 @@ spec = modifyMaxSuccess (const 1000) $ do
       show vector `shouldBe` "Vector {x = 4.3, y = -4.2, z = 3.1}"
 
     prop "scalar multiplication of a point" $
-      let factor = 3.5 :: Double
-       in \a b c -> scalarMultiply (Point a b c) factor `shouldBe` Point (a * factor) (b * factor) (c * factor)
+      \a b c factor -> scalarMultiply (Point a b c) factor `shouldBe` Point (a * factor) (b * factor) (c * factor)
     prop "scalar multiplication of a vector" $
-      let factor = 7.1 :: Double
-       in \a b c -> scalarMultiply (Vector a b c) factor `shouldBe` Vector (a * factor) (b * factor) (c * factor)
+      \a b c factor -> scalarMultiply (Vector a b c) factor `shouldBe` Vector (a * factor) (b * factor) (c * factor)
 
     prop "scalar division of a point" $
       let divisor = 3.5 :: Double
-       in \a b c -> scalarDivide (Point a b c) divisor `shouldBe` Point (a / divisor) (b / divisor) (c / divisor)
+       in \a b c -> scalarDivide (Point a b c) divisor `shouldBe` Left (Point (a / divisor) (b / divisor) (c / divisor))
     prop "scalar division of a vector" $
       let divisor = 7.1 :: Double
-       in \a b c -> scalarDivide (Vector a b c) divisor `shouldBe` Vector (a / divisor) (b / divisor) (c / divisor)
+       in \a b c -> scalarDivide (Vector a b c) divisor `shouldBe` Left (Vector (a / divisor) (b / divisor) (c / divisor))
+
+    it "division by zero is undefined" $ do
+      scalarDivide point 0 `shouldBe` Right "division by zero is undefined"
+      scalarDivide vector 0 `shouldBe` Right "division by zero is undefined"
+
+    it "magnitude of a point" $ do
+      tupleMagnitude zeroPoint `shouldBe` 0
+      tupleMagnitude (Point 4.1 0 0) `shouldBe` 4.1
+      tupleMagnitude (Point 1 2 3) `shouldBe` sqrt 14
+      tupleMagnitude (Point (-1) (-2) (-3)) `shouldBe` sqrt 14

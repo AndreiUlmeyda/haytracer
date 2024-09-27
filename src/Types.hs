@@ -8,8 +8,11 @@ module Types
     negateTuple,
     scalarMultiply,
     scalarDivide,
+    tupleMagnitude,
   )
 where
+
+-- TODO add documentation
 
 data ThreeTuple
   = Point {x :: Double, y :: Double, z :: Double}
@@ -56,5 +59,9 @@ negateTuple t = t {x = -(x t), y = -(y t), z = -(z t)}
 scalarMultiply :: ThreeTuple -> Double -> ThreeTuple
 scalarMultiply t factor = t {x = factor * x t, y = factor * y t, z = factor * z t}
 
-scalarDivide :: ThreeTuple -> Double -> ThreeTuple
-scalarDivide t divisor = scalarMultiply t (1 / divisor)
+scalarDivide :: ThreeTuple -> Double -> Either ThreeTuple Error
+scalarDivide _ 0 = Right "division by zero is undefined"
+scalarDivide t divisor = Left $ scalarMultiply t (1 / divisor)
+
+tupleMagnitude :: ThreeTuple -> Double
+tupleMagnitude t = sqrt (x t ^ 2 + y t ^ 2 + z t ^ 2)

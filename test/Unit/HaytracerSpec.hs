@@ -1,5 +1,6 @@
 module Unit.HaytracerSpec (spec) where
 
+import Haytracer (someFunc)
 import Test.Hspec
   ( Spec,
     describe,
@@ -11,7 +12,7 @@ import Test.Hspec.QuickCheck
     prop,
   )
 
-import Haytracer (someFunc)
+-- TODO add documentation
 
 spec :: Spec
 spec = modifyMaxSuccess (const 1000) $ do
