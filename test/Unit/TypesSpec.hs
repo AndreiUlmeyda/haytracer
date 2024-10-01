@@ -26,8 +26,7 @@ import Prelude hiding
     subtract,
   )
 
--- TODO add documentation
-
+-- | Unit tests for vector/point arithmetic
 spec :: Spec
 spec = modifyMaxSuccess (const 1000) $ do
   describe "three tuples" $ do
