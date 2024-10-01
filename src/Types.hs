@@ -34,7 +34,7 @@ instance Eq ThreeTuple where
   _ == _ = False
 
 epsilon :: Double
-epsilon = 1e-9
+epsilon = 1e-11
 
 absoluteDifferenceBelowThreshold :: Double -> Double -> Bool
 absoluteDifferenceBelowThreshold a b = abs (a - b) <= epsilon
