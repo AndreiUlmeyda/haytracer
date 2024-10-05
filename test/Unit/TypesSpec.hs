@@ -14,6 +14,7 @@ import Test.Hspec.QuickCheck
 import Types
   ( ThreeTuple (..),
     addTuple,
+    crossProductTuple,
     dotProductTuple,
     epsilon,
     negateTuple,
@@ -121,3 +122,6 @@ spec = modifyMaxSuccess (const 1000) $ do
 
     it "the dot product of a tuple" $ do
       dotProductTuple (Vector 1 2 3) (Vector 2 3 4) `shouldBe` 20
+
+    it "the cross product of two vectors" $ do
+      crossProductTuple (Vector 1 2 3) (Vector 2 3 4) `shouldBe` Vector (-1) 2 (-1)

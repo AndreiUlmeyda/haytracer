@@ -17,6 +17,7 @@ module Types
     tupleMagnitude,
     tupleNormalize,
     dotProductTuple,
+    crossProductTuple,
   )
 where
 
@@ -102,3 +103,11 @@ tupleNormalize t
 
 dotProductTuple :: ThreeTuple -> ThreeTuple -> Double
 dotProductTuple t1 t2 = x t1 * x t2 + y t1 * y t2 + z t1 * z t2
+
+crossProductTuple :: ThreeTuple -> ThreeTuple -> ThreeTuple
+crossProductTuple t1 t2 =
+  Vector
+    { x = y t1 * z t2 - z t1 * y t2,
+      y = z t1 * x t2 - x t1 * z t2,
+      z = x t1 * y t2 - y t1 * x t2
+    }
