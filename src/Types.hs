@@ -21,7 +21,8 @@ module Types
 where
 
 -- | Represent tuples of spacial coordinates to represent points and vecors
---   in 3 dimensions.
+--   in 3 dimensions. TODO switch to parametrized type to allow implementing
+--   Functor and Foldable
 data ThreeTuple
   = Point {x :: Double, y :: Double, z :: Double}
   | Vector {x :: Double, y :: Double, z :: Double}
@@ -100,4 +101,4 @@ tupleNormalize t
   | otherwise = Left $ applyElementWise (/ tupleMagnitude t) t
 
 dotProductTuple :: ThreeTuple -> ThreeTuple -> Double
-dotProductTuple t1 t2 = 20
+dotProductTuple t1 t2 = x t1 * x t2 + y t1 * y t2 + z t1 * z t2
