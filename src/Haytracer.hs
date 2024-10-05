@@ -3,6 +3,6 @@ module Haytracer
   )
 where
 
--- | Default stack project sceleton
+-- | Default stack project skeleton
 someFunc :: String
 someFunc = "someFunc"

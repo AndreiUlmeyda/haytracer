@@ -14,12 +14,14 @@ import Test.Hspec.QuickCheck
 import Types
   ( ThreeTuple (..),
     addTuple,
+    dotProductTuple,
     epsilon,
     negateTuple,
     scalarDivide,
     scalarMultiply,
     subtractTuple,
     tupleMagnitude,
+    tupleNormalize,
   )
 import Prelude hiding
   ( negate,
@@ -104,8 +106,18 @@ spec = modifyMaxSuccess (const 1000) $ do
       scalarDivide point 0 `shouldBe` Right "division by zero is undefined"
       scalarDivide vector 0 `shouldBe` Right "division by zero is undefined"
 
-    it "magnitude of a point" $ do
+    it "magnitude of a tuple" $ do
       tupleMagnitude zeroPoint `shouldBe` 0
       tupleMagnitude (Point 4.1 0 0) `shouldBe` 4.1
       tupleMagnitude (Point 1 2 3) `shouldBe` sqrt 14
+      tupleMagnitude (Vector 1 2 3) `shouldBe` sqrt 14
       tupleMagnitude (Point (-1) (-2) (-3)) `shouldBe` sqrt 14
+      tupleMagnitude (Point 0 0 0) `shouldBe` 0
+
+    it "normalization of a tuple" $ do
+      tupleNormalize zeroPoint `shouldBe` Right "tuples of magnitude zero cannot be normalized"
+      tupleNormalize (Vector 4 0 0) `shouldBe` Left (Vector 1 0 0)
+      tupleNormalize (Vector 1 2 3) `shouldBe` Left (Vector (1 / sqrt 14) (2 / sqrt 14) (3 / sqrt 14))
+
+    it "the dot product of a tuple" $ do
+      dotProductTuple (Vector 1 2 3) (Vector 2 3 4) `shouldBe` 20
