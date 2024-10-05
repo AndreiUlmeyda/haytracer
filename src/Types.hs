@@ -81,13 +81,13 @@ negateTuple :: ThreeTuple -> ThreeTuple
 negateTuple = applyElementWise (0 -)
 
 -- | Scalar multiplication of tuples
-scalarMultiply :: ThreeTuple -> Double -> ThreeTuple
-scalarMultiply t factor = t {x = factor * x t, y = factor * y t, z = factor * z t}
+scalarMultiply :: Double -> ThreeTuple -> ThreeTuple
+scalarMultiply factor = applyElementWise (* factor)
 
 -- | Scalar division of tuples TODO disallow zero using types
 scalarDivide :: ThreeTuple -> Double -> Either ThreeTuple Error
 scalarDivide _ 0 = Right "division by zero is undefined"
-scalarDivide t divisor = Left $ scalarMultiply t (1 / divisor)
+scalarDivide t divisor = Left $ scalarMultiply (1 / divisor) t
 
 -- | Compute the magnitude or length of a tuple
 tupleMagnitude :: ThreeTuple -> Double

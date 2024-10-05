@@ -91,9 +91,9 @@ spec = modifyMaxSuccess (const 1000) $ do
       show vector `shouldBe` "Vector {x = 4.3, y = -4.2, z = 3.1}"
 
     prop "scalar multiplication of a point" $
-      \a b c factor -> scalarMultiply (Point a b c) factor `shouldBe` Point (a * factor) (b * factor) (c * factor)
+      \a b c factor -> scalarMultiply factor (Point a b c) `shouldBe` Point (a * factor) (b * factor) (c * factor)
     prop "scalar multiplication of a vector" $
-      \a b c factor -> scalarMultiply (Vector a b c) factor `shouldBe` Vector (a * factor) (b * factor) (c * factor)
+      \a b c factor -> scalarMultiply factor (Vector a b c) `shouldBe` Vector (a * factor) (b * factor) (c * factor)
 
     prop "scalar division of a point" $
       let divisor = 3.5 :: Double
