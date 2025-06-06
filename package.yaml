@@ -23,6 +23,7 @@ default-extensions: DerivingStrategies InstanceSigs
 
 dependencies:
 - base >= 4.7 && < 5
+- hspec
 
 ghc-options:
   - -O2

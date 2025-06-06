@@ -1,0 +1,13 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "haytracer:lib"
+
+    - path: "./app/Main.hs"
+      component: "haytracer:exe:haytracer-exe"
+
+    - path: "./app/Paths_haytracer.hs"
+      component: "haytracer:exe:haytracer-exe"
+
+    - path: "./test"
+      component: "haytracer:test:haytracer-test"
